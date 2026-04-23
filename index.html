@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat AI Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar closed" id="sidebar">
+            <div class="sidebar-top-header">
+                <i class="fas fa-robot" style="font-size: 20px;"></i>
+                <button id="close-sidebar" class="icon-btn" style="color: var(--text-main);"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="sidebar-menu-list">
+                <button id="new-chat-btn" class="sidebar-menu-btn">
+                    <i class="far fa-edit"></i> دردشة جديدة
+                </button>
+                <div class="sidebar-menu-btn search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-chats" placeholder="البحث في الدردشات...">
+                </div>
+                <button id="images-btn" class="sidebar-menu-btn">
+                    <i class="far fa-image"></i> الصور
+                </button>
+            </div>
+
+            <div class="chat-history" id="chat-history">
+                </div>
+            
+            <!-- Popup Menu for User Account -->
+            <div id="user-popup-menu" class="popup-menu" style="display: none;">
+                <div class="popup-user-header">
+                    <div class="avatar" style="background: var(--primary-color); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; width: 35px; height: 35px;">
+                        <i class="fas fa-user" style="color:white; margin:0;"></i>
+                    </div>
+                    <div class="user-info-text">
+                        <span class="popup-username">احمد الغريري</span>
+                        <span class="popup-plan">المجانية</span>
+                    </div>
+                </div>
+                <div class="popup-item" id="add-account-btn">
+                    <i class="fas fa-plus"></i> إضافة حساب آخر
+                </div>
+                <div class="popup-divider"></div>
+                <div class="popup-item"><i class="fas fa-bolt"></i> ترقية الخطة</div>
+                <div class="popup-item"><i class="fas fa-paint-brush"></i> تخصيص</div>
+                <div class="popup-item"><i class="fas fa-user-circle"></i> ملف التعريف</div>
+                <div class="popup-item" id="open-settings-btn"><i class="fas fa-cog"></i> الإعدادات</div>
+                <div class="popup-divider"></div>
+                <div class="popup-item">التعليمات</div>
+                <div class="popup-item"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</div>
+            </div>
+
+            <div class="user-account" id="user-account-btn">
+                <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User" class="avatar">
+                <span class="username">المستخدم الحالي</span>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header style="flex-direction: row-reverse; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: var(--bg-main);">
+                <div class="header-left-group" style="display: flex; align-items: center; gap: 10px; flex-direction: row-reverse;">
+                    <button id="toggle-sidebar" class="icon-btn" style="color: #000;"><i class="fas fa-bars" style="font-size: 20px;"></i></button>
+                    <div class="app-title" style="font-weight: 700; font-size: 18px; color: #000; display: flex; align-items: center;">ChatGPT <i class="fas fa-chevron-down" style="font-size: 12px; font-weight: normal; margin-right: 5px; color: #666;"></i></div>
+                    <button class="upgrade-btn" style="background-color: #f3e8ff; color: #7e22ce; border: none; padding: 6px 14px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;"><i class="fas fa-sparkles"></i> اشترك في Plus</button>
+                </div>
+                <div class="header-right-group">
+                    <button id="new-chat-btn-top" class="icon-btn" style="color: #000;"><i class="far fa-circle" style="border: 2px dashed #999; border-radius: 50%; width: 22px; height: 22px; display: inline-block; color: transparent;"></i></button>
+                </div>
+            </header>
+
+            <div class="chat-container" id="chat-container" style="display: none;">
+                </div>
+
+            <div class="welcome-screen" id="welcome-screen">
+                <h1 id="welcome-text" style="font-size: 28px; font-weight: 700; color: #000;">ماذا يجول بخاطرك اليوم؟</h1>
+            </div>
+
+            <div class="input-area">
+                <div class="image-preview-container" id="image-preview-container" style="display: none;">
+                    <img id="image-preview" src="" alt="Preview">
+                    <button id="remove-image"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="input-wrapper-pill" style="display: flex; align-items: center; background-color: #f4f4f4; border: 1px solid #e5e5e5; border-radius: 35px; padding: 8px 15px; gap: 10px; flex-direction: row-reverse; box-shadow: none;">
+                    <label for="image-upload" class="icon-btn plus-btn" title="رفع" style="color: #666; font-size: 22px; cursor: pointer; padding: 5px;"><i class="fas fa-plus"></i></label>
+                    
+                    <textarea id="message-input" placeholder="اسأل عن أي شيء" rows="1" style="flex: 1; background: transparent; border: none; outline: none; font-size: 16px; text-align: right; resize: none; overflow: hidden; padding-top: 8px; color: #000;"></textarea>
+                    
+                    <button class="icon-btn mic-btn" style="color: #666; font-size: 18px; padding: 5px;"><i class="fas fa-microphone"></i></button>
+                    <button id="dynamic-send-btn" class="dynamic-btn voice-mode" style="background-color: #000; color: #fff; width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-align-center" style="transform: rotate(90deg);"></i>
+                    </button>
+                    <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="settings-modal">
+        <div class="modal-content settings-layout">
+            <span class="close-modal"><i class="fas fa-times"></i></span>
+            <div class="settings-sidebar-tabs">
+                <div class="settings-tab active" data-target="tab-general"><i class="fas fa-cog"></i> العام</div>
+                <div class="settings-tab" data-target="tab-notifications"><i class="fas fa-bell"></i> الإشعارات</div>
+                <div class="settings-tab" data-target="tab-language"><i class="fas fa-globe"></i> اللغة</div>
+            </div>
+            <div class="settings-body">
+                <div class="settings-pane active" id="tab-general">
+                    <h3>العام</h3>
+                    <div class="settings-group-row">
+                        <span>المظهر</span>
+                        <button id="theme-toggle" class="secondary-btn"><i class="fas fa-moon"></i> تبديل المظهر</button>
+                    </div>
+                    <hr class="settings-divider">
+                    <div class="settings-group-row">
+                        <span>مسح جميع الدردشات</span>
+                        <button id="clear-data-btn" class="danger-border-btn">مسح</button>
+                    </div>
+                </div>
+                <div class="settings-pane" id="tab-notifications">
+                    <h3>الإشعارات</h3>
+                    <div class="settings-group-row">
+                        <span>تفعيل الإشعارات</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-pane" id="tab-language">
+                    <h3>اللغة</h3>
+                    <div class="settings-group">
+                        <select class="lang-select">
+                            <option value="auto" selected>تلقائي</option>
+                            <option value="ar">العربية (Arabic)</option>
+                            <option value="en">English (English)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
