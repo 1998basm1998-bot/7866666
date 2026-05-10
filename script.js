@@ -30,7 +30,13 @@ const elements = {
     searchChats: document.getElementById('search-chats'),
     userPopupMenu: document.getElementById('user-popup-menu'),
     openSettingsBtn: document.getElementById('open-settings-btn'),
-    addAccountBtn: document.getElementById('add-account-btn')
+    addAccountBtn: document.getElementById('add-account-btn'),
+    googleLoginBtn: document.getElementById('google-login-btn'),
+    logoutBtn: document.getElementById('logout-btn'),
+    loggedInUserInfo: document.getElementById('logged-in-user-info'),
+    displayUsername: document.getElementById('display-username'),
+    mainUsername: document.getElementById('main-username'),
+    mainUserAvatar: document.getElementById('main-user-avatar')
 };
 
 const getSettingsTabs = () => document.querySelectorAll('.settings-tab');
@@ -38,6 +44,7 @@ const getSettingsPanes = () => document.querySelectorAll('.settings-pane');
 
 function init() {
     applySettings();
+    updateUserUI();
     renderChatList();
     if (Object.keys(chats).length === 0 || !currentChatId) {
         showWelcomeScreen();
@@ -45,6 +52,8 @@ function init() {
         loadChat(currentChatId);
     }
 }
+
+let currentUser = JSON.parse(localStorage.getItem('zenarUser')) || null;
 
 function applySettings() {
     if (settings.isDarkMode) {
@@ -266,11 +275,48 @@ elements.userAccountBtn.addEventListener('click', (e) => {
     elements.userPopupMenu.style.display = elements.userPopupMenu.style.display === 'block' ? 'none' : 'block';
 });
 
-if(elements.addAccountBtn) {
-    elements.addAccountBtn.addEventListener('click', () => {
+if(elements.googleLoginBtn) {
+    elements.googleLoginBtn.addEventListener('click', () => {
         elements.userPopupMenu.style.display = 'none';
-        alert('تسجيل الدخول عبر Google...');
+        // Simulate Google Login
+        currentUser = {
+            name: 'مستخدم Google',
+            email: 'user@gmail.com',
+            picture: 'https://ui-avatars.com/api/?name=User&background=random'
+        };
+        localStorage.setItem('zenarUser', JSON.stringify(currentUser));
+        updateUserUI();
     });
+}
+
+if(elements.logoutBtn) {
+    elements.logoutBtn.addEventListener('click', () => {
+        elements.userPopupMenu.style.display = 'none';
+        currentUser = null;
+        localStorage.removeItem('zenarUser');
+        updateUserUI();
+    });
+}
+
+function updateUserUI() {
+    if (currentUser) {
+        if (elements.loggedInUserInfo) elements.loggedInUserInfo.style.display = 'flex';
+        if (elements.googleLoginBtn) elements.googleLoginBtn.style.display = 'none';
+        if (elements.addAccountBtn) elements.addAccountBtn.style.display = 'flex';
+        if (elements.logoutBtn) elements.logoutBtn.style.display = 'flex';
+        
+        if (elements.displayUsername) elements.displayUsername.textContent = currentUser.name;
+        if (elements.mainUsername) elements.mainUsername.textContent = currentUser.name;
+        if (elements.mainUserAvatar) elements.mainUserAvatar.src = currentUser.picture;
+    } else {
+        if (elements.loggedInUserInfo) elements.loggedInUserInfo.style.display = 'none';
+        if (elements.googleLoginBtn) elements.googleLoginBtn.style.display = 'flex';
+        if (elements.addAccountBtn) elements.addAccountBtn.style.display = 'none';
+        if (elements.logoutBtn) elements.logoutBtn.style.display = 'none';
+        
+        if (elements.mainUsername) elements.mainUsername.textContent = 'تسجيل الدخول';
+        if (elements.mainUserAvatar) elements.mainUserAvatar.src = 'https://ui-avatars.com/api/?name=Guest&background=000&color=fff';
+    }
 }
 
 if(elements.openSettingsBtn) {
