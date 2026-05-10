@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat AI Pro</title>
+    <title>ZenarAI</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -35,16 +35,19 @@
             
             <!-- Popup Menu for User Account -->
             <div id="user-popup-menu" class="popup-menu" style="display: none;">
-                <div class="popup-user-header">
+                <div class="popup-user-header" id="logged-in-user-info" style="display: none;">
                     <div class="avatar" style="background: var(--primary-color); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; width: 35px; height: 35px;">
                         <i class="fas fa-user" style="color:white; margin:0;"></i>
                     </div>
                     <div class="user-info-text">
-                        <span class="popup-username">احمد الغريري</span>
-                        <span class="popup-plan">المجانية</span>
+                        <span class="popup-username" id="display-username">مستخدم</span>
+                        <span class="popup-plan">الخطة المجانية</span>
                     </div>
                 </div>
-                <div class="popup-item" id="add-account-btn">
+                <div class="popup-item" id="google-login-btn">
+                    <i class="fab fa-google"></i> تسجيل الدخول عبر Google
+                </div>
+                <div class="popup-item" id="add-account-btn" style="display: none;">
                     <i class="fas fa-plus"></i> إضافة حساب آخر
                 </div>
                 <div class="popup-divider"></div>
@@ -54,21 +57,21 @@
                 <div class="popup-item" id="open-settings-btn"><i class="fas fa-cog"></i> الإعدادات</div>
                 <div class="popup-divider"></div>
                 <div class="popup-item">التعليمات</div>
-                <div class="popup-item"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</div>
+                <div class="popup-item" id="logout-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</div>
             </div>
 
             <div class="user-account" id="user-account-btn">
-                <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User" class="avatar">
-                <span class="username">المستخدم الحالي</span>
+                <img src="https://ui-avatars.com/api/?name=User&background=random" id="main-user-avatar" alt="User" class="avatar">
+                <span class="username" id="main-username">ضيف</span>
                 <i class="fas fa-ellipsis-h"></i>
             </div>
         </aside>
 
         <main class="main-content">
-            <header style="flex-direction: row-reverse; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: var(--bg-main);">
+            <header style="flex-shrink: 0; flex-direction: row-reverse; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: var(--bg-main); z-index: 10;">
                 <div class="header-left-group" style="display: flex; align-items: center; gap: 10px; flex-direction: row-reverse;">
                     <button id="toggle-sidebar" class="icon-btn" style="color: #000;"><i class="fas fa-bars" style="font-size: 20px;"></i></button>
-                    <div class="app-title" style="font-weight: 700; font-size: 18px; color: #000; display: flex; align-items: center;">ChatGPT <i class="fas fa-chevron-down" style="font-size: 12px; font-weight: normal; margin-right: 5px; color: #666;"></i></div>
+                    <div class="app-title" style="font-weight: 700; font-size: 18px; color: #000; display: flex; align-items: center;">ZenarAI <i class="fas fa-chevron-down" style="font-size: 12px; font-weight: normal; margin-right: 5px; color: #666;"></i></div>
                     <button class="upgrade-btn" style="background-color: #f3e8ff; color: #7e22ce; border: none; padding: 6px 14px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;"><i class="fas fa-sparkles"></i> اشترك في Plus</button>
                 </div>
                 <div class="header-right-group">
