@@ -35,7 +35,7 @@ body {
     overflow: hidden;
 }
 
-.app-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+.app-container { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
 
 .sidebar {
     width: 280px;
@@ -86,16 +86,17 @@ body {
 
 header {
     height: 60px; background-color: var(--bg-main); z-index: 10;
+    flex-shrink: 0;
 }
 .icon-btn { background: none; border: none; cursor: pointer; transition: 0.2s; }
 .icon-btn:hover { opacity: 0.7; }
 
 .welcome-screen {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; overflow-y: auto;
 }
 
 .chat-container {
-    flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; padding-bottom: 120px;
+    flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; padding-bottom: 20px;
 }
 .message { display: flex; gap: 15px; max-width: 800px; margin: 0 auto; width: 100%; }
 .message.user { flex-direction: row-reverse; }
@@ -105,8 +106,7 @@ header {
 .msg-image { max-width: 100%; border-radius: 8px; margin-bottom: 10px; }
 
 .input-area {
-    position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-    width: 95%; max-width: 800px; padding: 0; z-index: 10;
+    width: 95%; max-width: 800px; padding: 15px 0; margin: 0 auto; z-index: 10; position: relative; flex-shrink: 0;
 }
 .image-preview-container { text-align: center; margin-bottom: 10px; }
 #image-preview { height: 60px; border-radius: 8px; }
